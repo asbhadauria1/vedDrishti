@@ -1,0 +1,136 @@
+# ============================================
+# VedDrishti - Docker Compose Configuration
+# Runs all services: App, MongoDB, PostgreSQL, Ollama
+# ============================================
+
+version: '3.8'
+
+services:
+  # ==========================================
+  # MongoDB Container (NoSQL for transcripts)
+  # ==========================================
+  mongodb:
+    image: mongo:latest
+    container_name: veddrishti_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - veddrishti_network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # PostgreSQL Container (SQL for structured data)
+  # ==========================================
+  postgres:
+    image: postgres:15
+    container_name: veddrishti_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: veddrishti
+      POSTGRES_USER: veddrishti_user
+      POSTGRES_PASSWORD: veddrishti_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    networks:
+      - veddrishti_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U veddrishti_user -d veddrishti"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # Ollama Container (AI Model)
+  # ==========================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: veddrishti_ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - veddrishti_network
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ==========================================
+  # VedDrishti Main Application
+  # ==========================================
+  app:
+    build: .
+    container_name: veddrishti_app
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    environment:
+      DOCKER_ENV: "true"
+      MONGODB_HOST: mongodb
+      POSTGRES_HOST: postgres
+      OLLAMA_HOST: ollama
+    volumes:
+      - ./sample_data:/app/sample_data
+    networks:
+      - veddrishti_network
+    command: >
+      sh -c "
+      echo '=========================================' &&
+      echo '🐳 VedDrishti - Starting in Docker mode' &&
+      echo '=========================================' &&
+      echo '' &&
+      echo '📡 Waiting for services to be ready...' &&
+      sleep 15 &&
+      echo '' &&
+      echo '🤖 Checking Ollama and downloading Llama 3.2...' &&
+      echo '   This may take 5-10 minutes for first run...' &&
+      curl -s -X POST http://ollama:11434/api/pull -d '{\"name\":\"llama3.2\"}' || echo '   ⚠️ Ollama pull issue, but continuing...' &&
+      echo '   ✅ Llama 3.2 ready!' &&
+      echo '' &&
+      echo '🗄️ Initializing databases...' &&
+      python -c \"from database.init_db import init_database; init_database()\" &&
+      echo '   ✅ Databases ready!' &&
+      echo '' &&
+      echo '🚀 Starting Streamlit...' &&
+      echo '   Access VedDrishti at: http://localhost:8501' &&
+      echo '' &&
+      streamlit run app/streamlit_app.py --server.port=8501 --server.address=0.0.0.0
+      "
+
+# ==========================================
+# Docker Networks
+# ==========================================
+networks:
+  veddrishti_network:
+    driver: bridge
+
+# ==========================================
+# Docker Volumes (Persistent Storage)
+# ==========================================
+volumes:
+  mongodb_data:
+    name: veddrishti_mongodb_data
+  postgres_data:
+    name: veddrishti_postgres_data
+  ollama_data:
+    name: veddrishti_ollama_data

@@ -1,0 +1,251 @@
+# ============================================
+# VedDrishti - .gitignore
+# Excludes sensitive, large, and unnecessary files
+# ============================================
+
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv/
+venv/
+ENV/
+env/
+.venv
+venv
+
+# Python distribution
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+*.egg
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+test-reports/
+
+# ============================================
+# Databases (Local files - not needed in git)
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# PostgreSQL local data
+postgres_data/
+pgdata/
+
+# MongoDB local data
+mongodb_data/
+dump/
+
+# ============================================
+# Docker (Volumes and large data)
+# ============================================
+# Docker volumes (these are large)
+mongodb_data/
+postgres_data/
+ollama_data/
+docker-data/
+
+# Docker secrets
+secrets/
+*.secrets
+
+# ============================================
+# Ollama & AI Models (Large files - 2GB+)
+# ============================================
+ollama/
+models/
+.ollama/
+*.bin
+*.gguf
+
+# Sentence transformers cache
+sentence_transformers_cache/
+cache/
+
+# ============================================
+# IDE and Editor Files
+# ============================================
+# VS Code
+.vscode/
+.history/
+*.code-workspace
+.vscode-test/
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.tags
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+
+# ============================================
+# Jupyter Notebook
+# ============================================
+.ipynb_checkpoints/
+*.ipynb
+.notebook_checkpoints/
+
+# ============================================
+# Logs and Databases
+# ============================================
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# ============================================
+# OS Generated Files
+# ============================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.exe
+*.dll
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+*.icloud
+__MACOSX/
+
+# Linux
+.directory
+*.orig
+*.old
+*~
+
+# ============================================
+# Sensitive Data (Never commit)
+# ============================================
+# Environment variables
+.env
+.env.local
+.env.*.local
+secrets.py
+config/secrets.py
+
+# API Keys and Tokens
+*.key
+*.pem
+*.crt
+*.p12
+.secrets
+
+# ============================================
+# Project Specific
+# ============================================
+# Sample data (exclude actual files, include structure)
+sample_data/past_papers/*.pdf
+sample_data/transcripts/*.txt
+sample_data/reviews/*.txt
+!sample_data/past_papers/.gitkeep
+!sample_data/transcripts/.gitkeep
+!sample_data/reviews/.gitkeep
+
+# Database initialization script (contains local config)
+database/init_db.py
+database/mongo_init.py
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Word cloud temporary images
+*.png
+*.jpg
+*.jpeg
+!docs/*.png
+
+# ============================================
+# Backup files
+# ============================================
+*.bak
+*.backup
+*.old
+*.orig
+
+# ============================================
+# Documentation build
+# ============================================
+docs/_build/
+docs/_static/
+docs/_templates/
+site/
+
+# ============================================
+# Streamlit
+# ============================================
+.streamlit/secrets.toml
+.streamlit/config.toml
+
+# ============================================
+# Archive files
+# ============================================
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ============================================
+# Keep directory structure
+# ============================================
+# These comments ensure empty folders are tracked
+!sample_data/past_papers/.gitkeep
+!sample_data/transcripts/.gitkeep
+!sample_data/reviews/.gitkeep
+!logs/.gitkeep
+!temp/.gitkeep

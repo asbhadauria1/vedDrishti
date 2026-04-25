@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Database files (will be created fresh in container)
+*.db
+*.sqlite
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Docker files (don't copy themselves)
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Large files that will be downloaded in container
+ollama/
