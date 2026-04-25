@@ -1,4 +1,4 @@
-# 🎓 VedDrishti - AI Course Survival Agent
+# 🎓 VedDrishti - AI Powered Course Survival Agent
 
 <div align="center">
 
