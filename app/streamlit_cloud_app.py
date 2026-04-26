@@ -509,10 +509,9 @@ for insight in course_insights:
 # FOOTER WITH LOCAL RUN INSTRUCTIONS
 # ============================================
 st.markdown("---")
-st.markdown(
-    """
-### 🚀 Run the Full Version on Your Machine
-
+st.markdown("### 🚀 Run the Full Version on Your Machine")
+    
+st.code("""
 # Clone the repository
 git clone https://github.com/yourusername/VedDrishti.git
 cd VedDrishti
@@ -529,5 +528,4 @@ docker-compose up
 pip install -r requirements.txt
 ollama pull llama3.2
 streamlit run app/streamlit_app.py
-"""
-)
+""", language="bash")
