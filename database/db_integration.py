@@ -26,7 +26,7 @@ DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "veddrishti.d
 
 # MongoDB connection (update with your connection string)
 # IMPORTANT: Replace with your actual MongoDB Atlas connection string
-MONGO_URI = "mongodb+srv://abhadauria2006_db_user:GT5y082HON0hlXcj@cluster0.j3rpdku.mongodb.net/?appName=Cluster0"
+MONGO_URI = os.environ.get("MONGODB_URI", "mongodb://localhost:27017/")
 MONGO_DB_NAME = "veddrishti"
 
 
