@@ -326,13 +326,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 | Streamlit | Dashboard framework |
 | HKUST COMP2012 | Course materials for testing |
 
-# 📧 Contact
-
-| Platform | Link |
-|----------|------|
-| GitHub | [github.com/yourusername/VedDrishti](https://github.com/yourusername/VedDrishti) |
-| Issues | [github.com/yourusername/VedDrishti/issues](https://github.com/yourusername/VedDrishti/issues) |
-
 # ⭐ Star History
 
 If you find VedDrishti useful, please consider starring the repository on GitHub!
